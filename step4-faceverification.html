@@ -66,12 +66,12 @@
         <div class="container mx-auto text-center">
             <h1 class="text-center text-red-500">Face Liveness</h1>
             <div class="flex flex-wrap -mx-2 gap-2 justify-center">
-                <div class="lg:w-6/12 px-2 md:w-full p-2 rounded-lg bg-white shadow-lg">
+                <div class="px-2 w-full p-2 rounded-lg bg-white shadow-lg" id="videoCaptureDiv">
                     <div class="video-container">
                         <video id="video" autoplay playsinline></video>
                         <canvas id="canvas"></canvas>
                     </div>
-
+                
                     <div class="w-full flex justify-center mt-4">
                         <div class="notes border-2 border-black flex flex-col items-center">
                             <div class="w-full bg-white h-12 flex items-center justify-center">
@@ -84,7 +84,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="lg:w-5/12 px-2 md:w-full p-2 rounded-lg flex flex-col justify-center items-center bg-white shadow-lg">
+                
+                <div class="px-2 w-full p-2 rounded-lg flex flex-col justify-center items-center bg-white shadow-lg hidden" id="snapshotDiv">
                     <img id="snapshot" src="" class="img-thumbnail img-fluid" alt="Snapshot">
                     <div id="success_msg" class="alert alert-success w-full mt-2 text-green-600">
                         Successfully Took a Photo
@@ -380,7 +381,8 @@
             snapshot.src = globalBase64Value;
             snapshot.style.display = 'block';
             successmsg.style.display = 'block';
-
+            document.getElementById('videoCaptureDiv').style.display = 'none';
+            document.getElementById('snapshotDiv').classList.remove('hidden');
             captureButton.disabled = true;
             check_data(globalBase64Value);
             videoElement.pause();
