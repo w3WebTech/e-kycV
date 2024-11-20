@@ -1,45 +1,16 @@
-<!-- <!DOCTYPE html>
+
+<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ventura - Email Setup</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body class="bg-gray-900 min-h-screen">
-    <div class="max-w-md mx-auto p-6">
-        <div class="flex items-center mb-12">
-            <a href="step2-otp.html" class="text-white">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                </svg>
-            </a>
-            <div class="bg-white p-2 rounded-md ml-2">
-                <svg class="w-8 h-8" viewBox="0 0 24 24" fill="navy">
-                    <path d="M12 2L2 22h20L12 2zm0 3l7.5 15h-15L12 5z" />
-                </svg>
-            </div>
-            <h1 class="text-white text-3xl ml-2 font-semibold">ventura</h1>
-        </div>
 
-        <div class="bg-white rounded-3xl p-6 shadow-lg">
-           Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt labore blanditiis delectus porro numquam eligendi nostrum magnam. Sapiente consectetur laudantium illo harum nihil. Perspiciatis quae harum soluta accusamus quibusdam quasi.
-        </div>
-    </div>
-</body>
-</html> -->
-
-<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Face Liveness and Gaze Estimation</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
     <style>
-  
-        .video-container mx-auto {
+        .video-container {
             position: relative;
             width: 100%;
             max-width: 300px;
@@ -52,11 +23,10 @@
             overflow: hidden;
             border-radius: 8px;
             border: 2px solid red;
-            
         }
-        
-    
-        video, canvas {
+
+        video,
+        canvas {
             position: absolute;
             top: 0;
             left: 0;
@@ -64,136 +34,122 @@
             height: 100%;
             object-fit: cover;
         }
-      .notes{
-        width:305px;    
-      }
-       
+
         #snapshot {
             display: none;
             max-width: 100%;
             height: auto;
-          
         }
 
         #success_msg {
             display: none;
         }
-
-       
-        .container mx-auto {
-            max-width: 100%;
-            padding: 1rem;
-        }
-        
-      
-        .flex-xl-5, .flex-xl-6 {
-            margin-top: 1rem;
-        }
     </style>
 </head>
-<body>
-    <div class="container mx-auto text-center">
-        <h1 class="text-center text-red-500">Face Liveness</h1>
-        <div class="flex flex-wrap -mx-2 gap-2 justify-center">
-            <div class="flex-xl-6 lg:w-6/12 px-2 md:w-full px-2 p-2 rounded-5 " style="background-color:whitesmoke;">
-                <div class="video-container mx-auto">
-                    <video id="video" autoplay playsinline></video>
-                    <canvas id="canvas"></canvas>
-                </div>
 
-                <div class="w-full" style="display: flex; justify-content: center;">
-                  <div class="notes" style="border: 2px solid black; display: flex; justify-content: center; align-items: center; flex-direction: column;">
-                   <div class="w-full bg-white mt-0" style="height: 50px;">
-                    <p class="text-red-500" id="distance_alert_message"></p>
-                   </div>
-                    <p>Distance Score: <span id="distance_score"></span><br>Alignment Score: <span id="al_score"></span></p>
-                    <div class="w-full" style="border: 2px solid blue;">
-                      <div class="d-grid">
-                        <button type="button" class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm bg-blue-500 hover:bg-blue-700 text-white captured-inline-flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm" block onclick="captureImage()" id="captureButton" disabled>Capture</button>  
-                      </div>
+<body class="bg-gray-900 min-h-screen">
+    <div class="max-w-md mx-auto p-6">
+        <div class="flex items-center mb-12">
+            <a href="step2-otp.html" class="text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </a>
+            <div class="bg-white p-2 rounded-md ml-2">
+                <svg class="w-8 h-8" viewBox="0 0 24 24" fill="navy">
+                    <path d="M12 2L2 22h20L12 2zm0 3l7.5 15h-15L12 5z" />
+                </svg>
+            </div>
+            <h1 class="text-white text-3xl ml-2 font-semibold">ventura</h1>
+        </div>
+
+        <div class="container mx-auto text-center">
+            <h1 class="text-center text-red-500">Face Liveness</h1>
+            <div class="flex flex-wrap -mx-2 gap-2 justify-center">
+                <div class="lg:w-6/12 px-2 md:w-full p-2 rounded-lg bg-white shadow-lg">
+                    <div class="video-container">
+                        <video id="video" autoplay playsinline></video>
+                        <canvas id="canvas"></canvas>
                     </div>
-                  </div>
-                </div>
-            </div>
-            <div class="flex-xl-5 lg:w-5/12 px-2 md:w-full px-2 p-2 rounded-5 flex justify-center items-center flex-flex" style="background-color:whitesmoke;">
-                <img id="snapshot" src="" class="img-thumbnail img-fluid" alt="Snapshot">
-                <div id="success_msg" class="alert alert-success w-full mt-2" role="alert">
-                    Successfully Took a Photo
-                </div>
-            </div>
 
-            
+                    <div class="w-full flex justify-center mt-4">
+                        <div class="notes border-2 border-black flex flex-col items-center">
+                            <div class="w-full bg-white h-12 flex items-center justify-center">
+                                <p class="text-red-500" id="distance_alert_message"></p>
+                            </div>
+                            <p>Distance Score: <span id="distance_score"></span><br>Alignment Score: <span id="al_score"></span></p>
+                            <div class="w-full border-2 border-blue-500 mt-2">
+                                <button type="button" class="w-full py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md" onclick="captureImage()" id="captureButton" disabled>Capture</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:w-5/12 px-2 md:w-full p-2 rounded-lg flex flex-col justify-center items-center bg-white shadow-lg">
+                    <img id="snapshot" src="" class="img-thumbnail img-fluid" alt="Snapshot">
+                    <div id="success_msg" class="alert alert-success w-full mt-2 text-green-600">
+                        Successfully Took a Photo
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
     <!-- Modal dialog box -->
-    <div class="modal fade" id="alertModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="alertModalLabel">Notice</h5>
-              <button type="button" class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="fixed inset-0 z-50 hidden items-center justify-center" id="alertModal">
+        <div class="modal-overlay absolute inset-0 bg-black opacity-50"></div>
+        <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded-lg shadow-lg z-50 overflow-y-auto">
+            <div class="modal-header flex justify-between items-center p-4 border-b">
+                <h5 class="text-lg font-semibold" id="alertModalLabel">Notice</h5>
+                <button type="button" class="text-gray-500" onclick="toggleModal('alertModal')">&times;</button>
             </div>
-            <div class="modal-body" id="alertMessage">
-              <!-- Alert message will appear here -->
+            <div class="modal-body p-4" id="alertMessage">
+                <!-- Alert message will appear here -->
             </div>
-            <div class="modal-footer">
-              <button type="button" class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm bg-gray-500 hover:bg-gray-700 text-white" data-bs-dismiss="modal">Try again</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Second Modal Dialog Box -->
-<div class="modal fade" id="secondAlertModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="secondAlertModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="secondAlertModalLabel"> Notice</h5>
-                <button type="button" class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              
-               <p>Failed <br>Hi, Your Image Quality is <span id="orginal_score_2"></span>%</p>
-               <p>Hi, We could not verify your face. <br>1. Ensure your face is facing towards light source
-               <br> 2. Click 'Take Picture'
-                </p>
-                <p>We will verify and move you to Next Step
-                </p>
-                <p>Note: We need your image quality to meet minimum 85% and above for succesfull verification</p>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm bg-gray-500 hover:bg-gray-700 text-white" onclick="videoplay()" data-bs-dismiss="modal">Try again</button>
+            <div class="modal-footer p-4">
+                <button type="button" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" onclick="toggleModal('alertModal')">Try again</button>
             </div>
         </div>
     </div>
-</div>
 
-
-<div class="modal fade" id="thirdAlertModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="thirdAlertModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="thirdAlertModalLabel"> Notice</h5>
-                <button type="button" class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <!-- Second Modal Dialog Box -->
+    <div class="fixed inset-0 z-50 hidden items-center justify-center" id="secondAlertModal">
+        <div class="modal-overlay absolute inset-0 bg-black opacity-50"></div>
+        <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded-lg shadow-lg z-50 overflow-y-auto">
+            <div class="modal-header flex justify-between items-center p-4 border-b">
+                <h5 class="text-lg font-semibold" id="secondAlertModalLabel">Notice</h5>
+                <button type="button" class="text-gray-500" onclick="toggleModal('secondAlertModal')">&times;</button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body p-4">
+                <p>Failed <br>Hi, Your Image Quality is <span id="orginal_score_2"></span>%</p>
+                <p>Hi, We could not verify your face. <br>1. Ensure your face is facing towards light source<br>2. Click 'Take Picture'</p>
+                <p>We will verify and move you to Next Step</p>
+                <p>Note: We need your image quality to meet minimum 85% and above for successful verification</p>
+            </div>
+            <div class="modal-footer p-4">
+                <button type="button" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" onclick="videoplay(); toggleModal('secondAlertModal')">Try again</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed inset-0 z-50 hidden items-center justify-center" id="thirdAlertModal">
+        <div class="modal-overlay absolute inset-0 bg-black opacity-50"></div>
+        <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded-lg shadow-lg z-50 overflow-y-auto">
+            <div class="modal-header flex justify-between items-center p-4 border-b">
+                <h5 class="text-lg font-semibold" id="thirdAlertModalLabel">Notice</h5>
+                <button type="button" class="text-gray-500" onclick="toggleModal('thirdAlertModal')">&times;</button>
+            </div>
+            <div class="modal-body p-4">
                 <p>Success <br>Face Liveness Confidence <span id="orginal_score_3"></span>%</p>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm bg-gray-500 hover:bg-gray-700 text-white" data-bs-dismiss="modal">Ok</button>
+            <div class="modal-footer p-4">
+                <button type="button" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" onclick="toggleModal('thirdAlertModal')">Ok</button>
             </div>
         </div>
     </div>
-</div>
-
-
 
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.15.0"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
     <script>
         const videoElement = document.getElementById('video');
         const canvasElement = document.getElementById('canvas');
@@ -202,40 +158,41 @@
         const snapshot = document.getElementById('snapshot');
         const successmsg = document.getElementById('success_msg');
         const captureButton = document.getElementById("captureButton");
-        const alertModal = new bootstrap.Modal(document.getElementById('alertModal'));
+        const alertModal = document.getElementById('alertModal');
         const alertMessage = document.getElementById("alertMessage");
-        const distancemessage=document.getElementById("distance_alert_message")
+        const distancemessage = document.getElementById("distance_alert_message");
         let imageCaptured = false;
-      
-        const secondAlertModal = new bootstrap.Modal(document.getElementById('secondAlertModal'));
+
+        const secondAlertModal = document.getElementById('secondAlertModal');
         const secondAlertMessage = document.getElementById('orginal_score_2');
 
-        const thirdAlertModal = new bootstrap.Modal(document.getElementById('thirdAlertModal'));
+        const thirdAlertModal = document.getElementById('thirdAlertModal');
         const thirdAlertMessage = document.getElementById('orginal_score_3');
 
-        // Function to show message in modal
         function showModalMessage(message) {
             alertMessage.innerText = message;
-            alertModal.show();
+            alertModal.classList.remove('hidden');
         }
-
 
         function showSecondModalMessage(message) {
             secondAlertMessage.innerText = message;
-            secondAlertModal.show();
+            secondAlertModal.classList.remove('hidden');
         }
 
         function showThirdModalMessage(message) {
-            console.log("va:",message)
             thirdAlertMessage.innerText = message;
-            thirdAlertModal.show();
+            thirdAlertModal.classList.remove('hidden');
         }
 
-
-        function videoplay(){
-            videoElement.play()
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.toggle('hidden');
         }
-        // Initialize FaceMesh and Camera
+
+        function videoplay() {
+            videoElement.play();
+        }
+
         const faceMesh = new FaceMesh({
             locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`
         });
@@ -282,104 +239,91 @@
         }
 
         function calculateFaceSize(landmarks) {
-        const leftEye = landmarks[33];  // Left eye landmark
-        const rightEye = landmarks[263]; // Right eye landmark
-        const nose = landmarks[1]; // Nose landmark
+            const leftEye = landmarks[33];
+            const rightEye = landmarks[263];
+            const nose = landmarks[1];
 
-        // Calculate horizontal distance between the eyes
-        const eyeDistance = Math.sqrt(
-            Math.pow((rightEye.x - leftEye.x), 2) + Math.pow((rightEye.y - leftEye.y), 2)
-        );
+            const eyeDistance = Math.sqrt(
+                Math.pow((rightEye.x - leftEye.x), 2) + Math.pow((rightEye.y - leftEye.y), 2)
+            );
 
-        // Calculate vertical distance from eyes to nose
-        const eyeToNoseDistance = Math.sqrt(
-            Math.pow((nose.x - leftEye.x), 2) + Math.pow((nose.y - leftEye.y), 2)
-        );
+            const eyeToNoseDistance = Math.sqrt(
+                Math.pow((nose.x - leftEye.x), 2) + Math.pow((nose.y - leftEye.y), 2)
+            );
 
-        // Face size score can be a combination of these distances
-        return {
-            eyeDistance,
-            eyeToNoseDistance,
-            faceSize: eyeDistance * eyeToNoseDistance // A simple metric for face size
-        };
-    }
-    function onResults(results) {
-    if (imageCaptured) return;
-
-    canvasCtx.save();
-    canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
-    canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
-
-    const numFaces = results.multiFaceLandmarks ? results.multiFaceLandmarks.length : 0;
-
-    const dis_sc = parseInt(distance_score.innerText.match(/\d+/)?.[0] || '0');
-
-
-    if (numFaces === 1) {
-        const landmarks = results.multiFaceLandmarks[0];
-
-  
-        const { faceSize } = calculateFaceSize(landmarks);
-        const faceSizeThreshold = 0.02; 
-        const distanceScore = calculateDistanceScore(faceSize, faceSizeThreshold);
-        const distanceScoreDisplay = document.getElementById('distance_score');
-        distanceScoreDisplay.innerText = `${distanceScore}%`;
-        
-        if(distanceScore < 90){
-          distancemessage.innerHTML=`Your face is too far from the camera. <br> Please move closer.`
-          captureButton.disabled = true;  
-          return;
+            return {
+                eyeDistance,
+                eyeToNoseDistance,
+                faceSize: eyeDistance * eyeToNoseDistance
+            };
         }
-        
-       else if (distanceScore > 90) {
-            distancemessage.innerHTML=" "
-            captureButton.disabled = false;  
-            
-        }
-        
-        
-        const alignmentScore = calculateAlignmentScore(landmarks);
-        alScoreDisplay.innerText = `${alignmentScore}%`;
 
- 
-        if (alignmentScore >=85) {
-            // Check if eyes are open
-            if (!checkEyesOpen(landmarks)) {
+        function onResults(results) {
+            if (imageCaptured) return;
+
+            canvasCtx.save();
+            canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+            canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
+
+            const numFaces = results.multiFaceLandmarks ? results.multiFaceLandmarks.length : 0;
+
+            const dis_sc = parseInt(distance_score.innerText.match(/\d+/)?.[0] || '0');
+
+            if (numFaces === 1) {
+                const landmarks = results.multiFaceLandmarks[0];
+
+                const { faceSize } = calculateFaceSize(landmarks);
+                const faceSizeThreshold = 0.02;
+                const distanceScore = calculateDistanceScore(faceSize, faceSizeThreshold);
+                const distanceScoreDisplay = document.getElementById('distance_score');
+                distanceScoreDisplay.innerText = `${distanceScore}%`;
+
+                if (distanceScore < 90) {
+                    distancemessage.innerHTML = `Your face is too far from the camera. <br> Please move closer.`;
+                    captureButton.disabled = true;
+                    return;
+                } else if (distanceScore > 90) {
+                    distancemessage.innerHTML = " ";
+                    captureButton.disabled = false;
+                }
+
+                const alignmentScore = calculateAlignmentScore(landmarks);
+                alScoreDisplay.innerText = `${alignmentScore}%`;
+
+                if (alignmentScore >= 85) {
+                    
+                    if (!checkEyesOpen(landmarks)) {
+                        return;
+                    }
+
+                    if (alignmentScore === 100) {
+                        captureImage();
+                        imageCaptured = true;
+                        captureButton.disabled = true;
+                    }
+
+                    detectPupilAndEstimateGaze(landmarks);
+                    drawFaceOvalLines(canvasCtx, landmarks);
+                } else {
+                    captureButton.disabled = true;
+                }
+            }
+
+            if (dis_sc >= 90 && numFaces > 1) {
+                showModalMessage('Multiple faces detected. Please show only one face.');
                 return;
             }
 
-            if (alignmentScore === 100) {
-                captureImage();
-                imageCaptured = true;
-                captureButton.disabled = true;
+            canvasCtx.restore();
+        }
+
+        function calculateDistanceScore(faceSize, threshold) {
+            let score = 100;
+            if (faceSize < threshold) {
+                score = Math.max(0, (faceSize / threshold) * 100);
             }
-
-            detectPupilAndEstimateGaze(landmarks);
-            drawFaceOvalLines(canvasCtx, landmarks);
-        } else {
-            captureButton.disabled = true; // Disable the capture button if alignment score is below 70%
+            return Math.round(score);
         }
-    }
-     
-  //  Then, check if there are multiple faces detected
-    if (dis_sc >= 90 && numFaces > 1) {
-            showModalMessage('Multiple faces detected. Please show only one face.');
-            return;
-        }
-
-    canvasCtx.restore();
-}
-
-
-function calculateDistanceScore(faceSize, threshold) {
-    let score = 100;
-    if (faceSize < threshold) {
-        score = Math.max(0, (faceSize / threshold) * 100); 
-    }
-    return Math.round(score); 
-}
-
-
 
         function checkEyesOpen(landmarks) {
             const leftEAR = calculateEAR(landmarks[159], landmarks[145], landmarks[133], landmarks[144]);
@@ -406,7 +350,7 @@ function calculateDistanceScore(faceSize, threshold) {
         function drawPupil(ctx, irisCenter) {
             const pupilX = irisCenter.x * canvasElement.width;
             const pupilY = irisCenter.y * canvasElement.height;
-             ctx.fillStyle = 'transparent';
+            ctx.fillStyle = 'transparent';
             ctx.beginPath();
             ctx.arc(pupilX, pupilY, 5, 0, 2 * Math.PI);
             ctx.fill();
@@ -436,17 +380,15 @@ function calculateDistanceScore(faceSize, threshold) {
             snapshot.src = globalBase64Value;
             snapshot.style.display = 'block';
             successmsg.style.display = 'block';
-            
+
             captureButton.disabled = true;
-          // const alignmentScore = parseInt(alScoreDisplay.innerText.split(':')[1].trim().replace('%', ''));
-           check_data(globalBase64Value);
+            check_data(globalBase64Value);
             videoElement.pause();
-           
         }
 
         async function check_data(base64) {
             const cleanedBase64 = base64.replace(/^data:image\/png;base64,/, '');
-            const apiurl='https://dfa.w3webtechnologies.co.in/ar-works/api-face-liveness.php'
+            const apiurl = 'https://dfa.w3webtechnologies.co.in/ar-works/api-face-liveness.php';
             const formData = new FormData();
             formData.append('img_data', cleanedBase64);
 
@@ -460,31 +402,23 @@ function calculateDistanceScore(faceSize, threshold) {
                     throw new Error("API request failed");
                 }
                 const result = await response.json();
-            
-                const status=result.status
-                if(status==='ok'){
-                const success=result.livenessData.success
-                const realscore=(result.livenessData.doc_json.real * 100)
-                
-                    if(realscore <= 85){
-                      
-                        showSecondModalMessage(realscore)
+
+                const status = result.status;
+                if (status === 'ok') {
+                    const realscore = (result.livenessData.doc_json.real * 100);
+                    if (realscore <= 85) {
+                        showSecondModalMessage(realscore);
+                    } else {
+                        showThirdModalMessage(realscore);
                     }
-                    else{
-        
-                        showThirdModalMessage(realscore)
-                    }
-                }
-                else{
-                    alert(data.msg)
+                } else {
+                    alert(result.msg);
                 }
             } catch (error) {
-               showModalMessage("Error: " + error.message);
+                showModalMessage("Error: " + error.message);
             }
         }
-        
-
     </script>
 </body>
-</html>
 
+</html>
