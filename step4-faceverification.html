@@ -21,7 +21,7 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            border-radius: 8px;
+            border-radius: 50%;
             border: 2px solid red;
         }
 
@@ -74,7 +74,7 @@
                 
                     <div class="w-full flex justify-center mt-4">
                         <div class="notes border-2 border-black flex flex-col items-center">
-                            <div class="w-full bg-white h-12 flex items-center justify-center">
+                            <div class="w-full bg-white p-3 flex items-center justify-center">
                                 <p class="text-red-500" id="distance_alert_message"></p>
                             </div>
                             <p>Distance Score: <span id="distance_score"></span><br>Alignment Score: <span id="al_score"></span></p>
@@ -185,22 +185,18 @@
             thirdAlertModal.classList.remove('hidden');
         }
 
+ 
         function toggleModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.classList.toggle('hidden');
-        // If the modal is now visible, we can also add a background click listener to close it
-        if (!modal.classList.contains('hidden')) {
-            modal.addEventListener('click', function(event) {
-                // Close the modal if the overlay is clicked
-                if (event.target === modal) {
-                    toggleModal(modalId);
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.toggle('hidden');
+                if (!modal.classList.contains('hidden')) {
+                    modal.querySelector('.modal-overlay').addEventListener('click', function() {
+                        toggleModal(modalId);
+                    }, { once: true });
                 }
-            });
+            }
         }
-    }
-}
-
         function videoplay() {
             videoElement.play();
         }
