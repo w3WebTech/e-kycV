@@ -73,7 +73,7 @@
                     </div>
                 
                     <div class="w-full flex justify-center mt-4">
-                        <div class="notes border-2 border-black flex flex-col items-center">
+                        <div class="notes border-2 px-4 py-2 border-black flex flex-col items-center">
                             <div class="w-full bg-white p-3 flex items-center justify-center">
                                 <p class="text-red-500" id="distance_alert_message"></p>
                             </div>
@@ -187,16 +187,23 @@
 
  
         function toggleModal(modalId) {
-            const modal = document.getElementById(modalId);
-            if (modal) {
-                modal.classList.toggle('hidden');
-                if (!modal.classList.contains('hidden')) {
-                    modal.querySelector('.modal-overlay').addEventListener('click', function() {
-                        toggleModal(modalId);
-                    }, { once: true });
-                }
-            }
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.toggle('hidden'); // Toggle visibility of the modal
+        const overlay = modal.querySelector('.modal-overlay');
+
+        // Add or remove the click event listener for the overlay
+        if (!modal.classList.contains('hidden')) {
+            overlay.addEventListener('click', function() {
+                toggleModal(modalId); // Close the modal when clicking the overlay
+            });
+        } else {
+            overlay.removeEventListener('click', function() {
+                toggleModal(modalId);
+            });
         }
+    }
+}
         function videoplay() {
             videoElement.play();
         }
@@ -354,6 +361,7 @@
             drawPupil(canvasCtx, landmarks[468]);
             drawPupil(canvasCtx, landmarks[473]);
         }
+            
 
         function drawPupil(ctx, irisCenter) {
             const pupilX = irisCenter.x * canvasElement.width;
