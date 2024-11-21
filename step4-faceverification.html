@@ -191,9 +191,8 @@
             thirdAlertMessage.innerText = message;
             thirdAlertModal.classList.remove('hidden');
         }
-
         function toggleModal(modalId) {
-            alert("modal")
+            alert(`Toggling modal: ${modalId}`); // Debug log
             const modal = document.getElementById(modalId);
             if (modal) {
                 const overlay = modal.querySelector('.modal-overlay');
@@ -202,12 +201,9 @@
                 // Add or remove the click event listener for the overlay
                 if (!isHidden) {
                     overlay.addEventListener('click', function () {
+                        console.log(`Overlay clicked, closing modal: ${modalId}`); // Debug log
                         toggleModal(modalId); // Close the modal when clicking the overlay
                     }, { once: true }); // Ensures the listener is only added once
-                } else {
-                    overlay.removeEventListener('click', function () {
-                        toggleModal(modalId); // Remove listener when modal is hidden
-                    });
                 }
             }
         }
