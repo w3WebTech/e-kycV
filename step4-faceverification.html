@@ -188,21 +188,22 @@
  
         function toggleModal(modalId) {
     const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.classList.toggle('hidden'); // Toggle visibility of the modal
-        const overlay = modal.querySelector('.modal-overlay');
+    modal.classList.add('hidden');
+    // if (modal) {
+    //     modal.classList.toggle('hidden'); // Toggle visibility of the modal
+    //     const overlay = modal.querySelector('.modal-overlay');
 
-        // Add or remove the click event listener for the overlay
-        if (!modal.classList.contains('hidden')) {
-            overlay.addEventListener('click', function() {
-                toggleModal(modalId); // Close the modal when clicking the overlay
-            });
-        } else {
-            overlay.removeEventListener('click', function() {
-                toggleModal(modalId);
-            });
-        }
-    }
+    //     // Add or remove the click event listener for the overlay
+    //     if (!modal.classList.contains('hidden')) {
+    //         overlay.addEventListener('click', function() {
+    //             toggleModal(modalId); // Close the modal when clicking the overlay
+    //         });
+    //     } else {
+    //         overlay.removeEventListener('click', function() {
+    //             toggleModal(modalId);
+    //         });
+    //     }
+    // }
 }
         function videoplay() {
             videoElement.play();
