@@ -78,8 +78,8 @@
                             </div>
                             <p>Distance Score: <span id="distance_score"></span><br>Alignment Score: <span
                                     id="al_score"></span></p>
-                                    <p class="text-red-500" id="location_alert_message"></p>
-<p>Latitude: <span id="latitude"></span><br> Longitude: <span id="longitude"></span></p>
+                            <p class="text-red-500" id="location_alert_message"></p>
+                            <p>Latitude: <span id="latitude"></span><br> Longitude: <span id="longitude"></span></p>
                             <div class="w-full border-2 border-blue-500 mt-2">
                                 <button type="button"
                                     class="w-full py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md"
@@ -194,7 +194,7 @@
             thirdAlertModal.classList.remove('hidden');
         }
         function toggleModal(modalId) {
-          //  alert(`Toggling modal: ${modalId}`); // Debug log
+            //  alert(`Toggling modal: ${modalId}`); // Debug log
             const modal = document.getElementById(modalId);
             if (modal) {
                 const overlay = modal.querySelector('.modal-overlay');
@@ -210,44 +210,47 @@
             }
         }
         function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition, showError);
-    } else {
-        showModalMessage("Geolocation is not supported by this browser.");
-    }
-}
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                showModalMessage("Geolocation is not supported by this browser.");
+            }
+        }
 
-function showPosition(position) {
+        function showPosition(position) {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
-    
+
     document.getElementById("latitude").innerText = latitude.toFixed(6);
     document.getElementById("longitude").innerText = longitude.toFixed(6);
-    
+
     // Optionally, you can calculate the distance score based on the location
     const distanceScore = calculateDistanceScoreFromLocation(latitude, longitude);
     document.getElementById('distance_score').innerText = `${distanceScore}%`;
+
+    // Show success modal
+    showModalMessage("Location retrieved successfully.");
 }
 
-function showError(error) {
-    switch(error.code) {
-        case error.PERMISSION_DENIED:
-            showModalMessage("User  denied the request for Geolocation.");
-            break;
-        case error.POSITION_UNAVAILABLE:
-            showModalMessage("Location information is unavailable.");
-            break;
-        case error.TIMEOUT:
-            showModalMessage("The request to get user location timed out.");
-            break;
-        case error.UNKNOWN_ERROR:
-            showModalMessage("An unknown error occurred.");
-            break;
-    }
-}
-document.addEventListener("DOMContentLoaded", function() {
-    getLocation(); // Get user's location when the page is loaded
-});
+        function showError(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    showModalMessage("User  denied the request for Geolocation.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    showModalMessage("Location information is unavailable.");
+                    break;
+                case error.TIMEOUT:
+                    showModalMessage("The request to get user location timed out.");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    showModalMessage("An unknown error occurred.");
+                    break;
+            }
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+            getLocation(); // Get user's location when the page is loaded
+        });
         function videoplay() {
             videoElement.play();
         }
