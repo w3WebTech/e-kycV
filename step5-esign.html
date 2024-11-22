@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ventura - Phone Number</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="bg-gray-900 min-h-screen">
+    <div class="max-w-md mx-auto p-6">
+        <div class="flex items-center mb-12">
+            <div class="bg-white p-2 rounded-md">
+                <svg class="w-8 h-8" viewBox="0 0 24 24" fill="navy">
+                    <path d="M12 2L2 22h20L12 2zm0 3l7.5 15h-15L12 5z" />
+                </svg>
+            </div>
+            <h1 class="text-white text-3xl ml-2 font-semibold">ventura</h1>
+        </div>
+
+        <div class="bg-white rounded-3xl p-6 shadow-lg" id="responseContainer">
+            <h2 class="text-2xl font-bold mb-2">E-Sign</h2>
+            <p class="mb-4">click below button for start esign</p>
+            <button id="startEsignButton" class="w-full py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md">
+                Start E-Sign
+            </button>
+            <div id="loadingMessage" class="mt-4 hidden">Loading...</div>
+        </div>
+    </div>
+
+    <script>
+        async function fetchData() {
+            const url = 'https://phpstack-529375-5021731.cloudwaysapps.com/api/create-esign.php';
+            const responseContainer = document.getElementById('responseContainer');
+            const loadingMessage = document.getElementById('loadingMessage');
+
+            try {
+                loadingMessage.classList.remove('hidden'); // Show loading message
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+
+                const data = await response.json(); 
+                if (data.data && data.data.invitations && data.data.invitations.length > 0) {
+                    const signUrl = data.data.invitations[0].signUrl; 
+                    alert(signUrl); 
+                    window.location.href = signUrl; // Redirect to sign URL
+                } else {
+                    throw new Error('No invitations found in the response');
+                }
+
+            } catch (error) {
+                responseContainer.innerText = 'Error: ' + error.message;
+            } finally {
+                loadingMessage.classList.add('hidden'); // Hide loading message after completion
+            }
+        }
+
+        // Add click event listener to the button
+        document.getElementById('startEsignButton').addEventListener('click', fetchData);
+    </script>
+</body>
+
+</html>
