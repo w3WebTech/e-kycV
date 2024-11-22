@@ -46,7 +46,7 @@
                 const data = await response.json(); 
                 if (data.data && data.data.invitations && data.data.invitations.length > 0) {
                     const signUrl = data.data.invitations[0].signUrl; 
-                    alert(signUrl); 
+                    //alert(signUrl); 
                     window.location.href = signUrl; // Redirect to sign URL
                 } else {
                     throw new Error('No invitations found in the response');
