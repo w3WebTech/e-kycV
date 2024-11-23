@@ -1,0 +1,177 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .hidden {
+            display: none;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-900 min-h-screen">
+    <div class="max-w-md mx-auto p-6">
+        <div class="flex items-center mb-12">
+            <div class="bg-white p-2 rounded-md">
+                <svg class="w-8 h-8" viewBox="0 0 24 24" fill="navy">
+                    <path d="M12 2L2 22h20L12 2zm0 3l7.5 15h-15L12 5z" />
+                </svg>
+            </div>
+            <h1 class="text-white text-3xl ml-2 font-semibold">ventura</h1>
+        </div>
+
+        <div class="bg-white rounded-3xl p-6 shadow-lg" id="responseContainer">
+            <div class="flex justify-between items-center mb-4">
+                <h1 class="text-lg font-semibold">Upload File or Take Photos</h1>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div class="flex flex-col items-center">
+                    <img src="https://via.placeholder.com/100/4CAF50/FFFFFF?text=Do" alt="Do" class="mb-2" />
+                    <p class="text-center">Do: Use high-resolution images.</p>
+                </div>
+                <div class="flex flex-col items-center">
+                    <img src="https://via.placeholder.com/100/F44336/FFFFFF?text=Don't" alt="Don't" class="mb-2" />
+                    <p class="text-center">Don't: Use blurry or low-quality images.</p>
+                </div>
+            </div>
+
+            <div id="fileList" class="space-y-4"></div>
+
+            <div class="flex justify-around mt-6">
+                <div class="flex flex-col items-center">
+                    <input type="file" id="fileInput" class="hidden" />
+                    <div class="bg-purple-200 p-4 rounded-full cursor-pointer" onclick="document.getElementById('fileInput').click();">
+                        <i class="fas fa-upload text-purple-500"></i>
+                    </div>
+                    <span class="mt-2 text-sm">Upload File</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="bg-purple-200 p-4 rounded-full cursor-pointer" onclick="takePhoto();">
+                        <i class="fas fa-camera text-purple-500"></i>
+                    </div>
+                    <span class="mt-2 text-sm">Take Photo</span>
+                </div>
+            </div> <button id="nextButton" class="bg-purple-500 text-white w-full py-3 rounded-lg mt-6 hidden">Next ></button>
+        </div>
+
+        <div id="uploadModal" class="modal hidden">
+            <div class="modal-content">
+                <h2 class="text-lg font-semibold">Uploading...</h2>
+                <p>Please wait while your file is being uploaded.</p>
+                <div id="uploadProgress" class="mt-4">
+                    <div class="flex items-center justify-between">
+                        <span id="progressPercentage" class="text-blue-500">0%</span>
+                    </div>
+                    <div class="w-full bg-gray-300 rounded-full h-1 mt-2">
+                        <div id="progressBar" class="bg-blue-500 h-1 rounded-full" style="width: 0%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        document.getElementById('fileInput').addEventListener('change', async (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const fileType = file.name.endsWith('.pdf') ? 'aadhaar' : 'photo'; // Determine file type
+                document.getElementById('uploadModal').classList.remove('hidden'); // Show the modal
+
+                const uploadResult = await uploadFile(file, fileType);
+                handleUploadResult(uploadResult, file.name);
+            }
+        });
+
+        async function uploadFile(file, type) {
+            const apiUrl = "https://gkyc.gwcindia.in/web-ocr/api-ocr-documents.php";
+            const formData = new URLSearchParams();
+            if (type) {
+                formData.append("aadhaar", "true");
+                formData.append("aadhaarF_name", file.name);
+                formData.append("aadhaarF_data", await getBase64(file));
+            }
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                const result = await response.json();
+                return result;
+            } catch (error) {
+                console.error("Error uploading file:", error);
+                return { status: "error", message: "Failed to upload file." };
+            } finally {
+                document.getElementById('uploadModal').classList.add('hidden'); // Hide the modal after upload
+            }
+        }
+
+        function handleUploadResult(result, fileName) {
+            if (result.status === "ok") {
+                alert("File uploaded successfully! File name: " + fileName);
+                document.getElementById('nextButton').classList.remove('hidden');
+            } else {
+                alert(result.message);
+            }
+        }
+
+        function getBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result.split(',')[1]);
+                reader.onerror = error => reject(error);
+            });
+        }
+
+        function takePhoto() {
+            alert("Camera functionality is not implemented yet.");
+        }
+    </script>
+</body>
+
+</html>

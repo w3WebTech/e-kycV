@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sequential Step Animation with Typing Effect</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* Animation for steps appearing */
+        @keyframes stepFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Animation for ticks appearing */
+        @keyframes tickScaleIn {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Typing effect */
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes blink-caret {
+            from,
+            to {
+                border-right-color: transparent;
+            }
+            50% {
+                border-right-color: black;
+            }
+        }
+
+        .step {
+            opacity: 0;
+            animation: stepFadeIn 0.5s ease-in-out forwards;
+        }
+
+        .tick {
+            opacity: 0;
+            transform: scale(0);
+            animation: tickScaleIn 0.3s ease-in-out forwards;
+        }
+
+        /* Add delays for each step and tick */
+        .step-1 {
+            animation-delay: 0s;
+        }
+
+        .step-2 {
+            animation-delay: 1s;
+        }
+
+        .step-3 {
+            animation-delay: 2s;
+        }
+
+        .step-4 {
+            animation-delay: 3s;
+        }
+
+        .tick-1 {
+            animation-delay: 0.5s;
+        }
+
+        .tick-2 {
+            animation-delay: 1.5s;
+        }
+
+        .tick-3 {
+            animation-delay: 3s;
+        }
+
+        .tick-4 {
+            animation-delay: 4.5s;
+        }
+
+        .typing-effect {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+           
+            animation: none; /* Default to no animation, will be added dynamically */
+        }
+    </style>
+</head>
+
+<body class="bg-gray-900 min-h-screen">
+    <div class="max-w-md mx-auto p-6">
+        <div class="flex items-center mb-12">
+            <a href="index.html" class="text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </a>
+            <div class="bg-white p-2 rounded-md ml-2">
+                <svg class="w-8 h-8" viewBox="0 0 24 24" fill="navy">
+                    <path d="M12 2L2 22h20L12 2zm0 3l7.5 15h-15L12 5z" />
+                </svg>
+            </div>
+            <h1 class="text-white text-3xl ml-2 font-semibold">ventura</h1>
+        </div>
+
+        <div class="bg-white rounded-3xl p-6 shadow-lg">
+            <div class="space-y-6">
+                <!-- Step 1 -->
+                <div class="flex items-center step step-1">
+                    <div class="relative flex items-center justify-center w-8 h-8 bg-green-600 rounded-full text-white">
+                        <span class="number-1">1</span>
+                        <i class="fas fa-check tick tick-1"></i>
+                        <div class="absolute left-1/2 transform -translate-x-1/2 top-full w-px h-6 bg-gray-300"></div>
+                    </div>
+                    <span class="ml-4 text-black text text-lg typing-effect" data-text="Process Your PAN"></span>
+                </div>
+        
+                <!-- Step 2 -->
+                <div class="flex items-center step step-2">
+                    <div class="relative flex items-center justify-center w-8 h-8 bg-green-600 rounded-full text-white">
+                        <span class="number-2 pl-3 font-bold">2</span>
+                        <i class="fas fa-check tick tick-2"></i>
+                        <div class="absolute left-1/2 transform -translate-x-1/2 top-full w-px h-6 bg-gray-300"></div>
+                    </div>
+                    <span class="ml-4 text-black text text-lg typing-effect" data-text="Reading Your PAN"></span>
+                </div>
+        
+                <!-- Step 3 -->
+                <div class="flex items-center step step-3">
+                    <div class="relative flex items-center justify-center w-8 h-8 bg-green-600 rounded-full text-white">
+                        <span class="number-3 pl-3 font-bold">3</span>
+                        <i class="fas fa-check tick tick-3"></i>
+                        <div class="absolute left-1/2 transform -translate-x-1/2 top-full w-px h-6 bg-gray-300"></div>
+                    </div>
+                    <span class="ml-4 text-black text text-lg typing-effect" data-text="Verify Your PAN"></span>
+                </div>
+        
+                <!-- Step 4 -->
+                <div class="flex items-center step step-4">
+                    <div class="relative flex items-center justify-center w-8 h-8 bg-green-600 rounded-full text-white">
+                        <span class="number-4 pl-3 font-bold">4</span>
+                        <i class="fas fa-check tick tick-4"></i>
+                    </div>
+                    <span class="ml-4 text-black text text-lg typing-effect" data-text="Success"></span>
+                </div>
+            </div>
+            </div></div>
+    
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Helper to add typing effect dynamically
+            function typeText(element, text, delay) {
+                setTimeout(() => {
+                    element.style.animation = `typing ${text.length * 0.1}s steps(${text.length}, end), blink-caret 0.75s step-end infinite`;
+                    element.textContent = text;
+                }, delay);
+            }
+
+            // Simulate animations for steps and ticks
+            const steps = document.querySelectorAll('.step');
+            steps.forEach((step, index) => {
+                setTimeout(() => {
+                    // Show the step
+                    step.style.opacity = 1;
+
+                    // Replace number with tick
+                    const number = step.querySelector('.number-' + (index + 1));
+                    const tick = step.querySelector('.tick-' + (index + 1));
+                    if (number) {
+                        number.classList.add('hidden');
+                        tick.style.display = "block";
+                        tick.classList.add('tick');
+                    }
+
+                    // Add typing effect to the text
+                    const typingElement = step.querySelector('.typing-effect');
+                    if (typingElement) {
+                        const text = typingElement.getAttribute('data-text');
+                        typeText(typingElement, text, 0);
+                    }
+                }, index * 1500); // 1.5s delay per step
+            });
+        });
+    </script>
+</body>
+
+</html>
