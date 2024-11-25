@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -48,6 +49,36 @@
                 opacity: 1;
             }
         }
+
+        @keyframes stepFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .step {
+            opacity: 0;
+            animation: stepFadeIn 0.5s ease-in-out forwards;
+        }
+
+        .tick {
+            opacity: 0;
+            transform: scale(0);
+            animation: tickScaleIn 0.3s ease-in-out forwards;
+        }
+
+        .typing-effect {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            animation: none;
+        }
     </style>
 </head>
 
@@ -88,14 +119,60 @@
                     </div>
                     <span class="mt-2 text-sm">Upload File</span>
                 </div>
-                <div class="flex flex-col items-center">
+                <div class=" flex flex-col items-center">
                     <div class="bg-purple-200 p-4 rounded-full cursor-pointer" onclick="takePhoto();">
                         <i class="fas fa-camera text-purple-500"></i>
                     </div>
                     <span class="mt-2 text-sm">Take Photo</span>
                 </div>
-            </div> <button id="nextButton" class="bg-purple-500 text-white w-full py-3 rounded-lg mt-6 hidden">Next ></button>
+            </div>
+            <button id="nextButton" class="bg-purple-500 text-white w-full py-3 rounded-lg mt-6 hidden">Next ></button>
         </div>
+        <div id="afterresponce" class="hidden"> 
+            <div class="bg-white rounded-3xl p-6 shadow-lg">
+                <div class="space-y-6">
+                    <!-- Step 1 -->
+                    <div class="flex items-center step step-1">
+                        <div class="relative flex items-center justify-center w-8 h-8 bg-green-600 rounded-full text-white">
+                            <span class="number-1">1</span>
+                            <i class="fas fa-check tick tick-1"></i>
+                            <div class="absolute left-1/2 transform -translate-x-1/2 top-full w-px h-6 bg-gray-300"></div>
+                        </div>
+                        <span class="ml-4 text-black text-lg typing-effect" data-text="Process Your PAN"></span>
+                    </div>
+        
+                    <!-- Step 2 -->
+                    <div class="flex items-center step step-2">
+                        <div class="relative flex items-center justify-center w-8 h-8 bg-green-600 rounded-full text-white">
+                            <span class="number-2 pl-3 font-bold">2</span>
+                            <i class="fas fa-check tick tick-2"></i>
+                            <div class="absolute left-1/2 transform -translate-x-1/2 top-full w-px h-6 bg-gray-300"></div>
+                        </div>
+                        <span class="ml-4 text-black text-lg typing-effect" data-text="Reading Your PAN"></span>
+                    </div>
+        
+                    <!-- Step 3 -->
+                    <div class="flex items-center step step-3">
+                        <div class="relative flex items-center justify-center w-8 h-8 bg-green-600 rounded-full text-white">
+                            <span class="number-3 pl-3 font-bold">3</span>
+                            <i class="fas fa-check tick tick-3"></i>
+                            <div class="absolute left-1/2 transform -translate-x-1/2 top-full w-px h-6 bg-gray-300"></div>
+                        </div>
+                        <span class="ml-4 text-black text-lg typing-effect" data-text="Verify Your PAN"></span>
+                    </div>
+        
+                    <!-- Step 4 -->
+                    <div class="flex items-center step step-4">
+                        <div class="relative flex items-center justify-center w-8 h-8 bg-green-600 rounded-full text-white">
+                            <span class="number-4 pl-3 font-bold">4</span>
+                            <i class="fas fa-check tick tick-4"></i>
+                        </div>
+                        <span class="ml-4 text-black text-lg typing-effect" data-text="Success"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="thirdresponse" class="hidden">hello</div>
 
         <div id="uploadModal" class="modal hidden">
             <div class="modal-content">
@@ -114,63 +191,130 @@
 
     </div>
     <script>
-        document.getElementById('fileInput').addEventListener('change', async (event) => {
-            const file = event.target.files[0];
-            if (file) {
-                const fileType = file.name.endsWith('.pdf') ? 'aadhaar' : 'photo'; // Determine file type
-                document.getElementById('uploadModal').classList.remove('hidden'); // Show the modal
+        document.addEventListener("DOMContentLoaded", () => {
+            // Helper to add typing effect dynamically
+            function typeText(element, text, delay) {
+                setTimeout(() => {
+                    element.style.animation = `typing ${text.length * 0.1}s steps(${text.length}, end), blink-caret 0.75s step-end infinite`;
+                    element.textContent = text;
+                }, delay);
+            }
 
-                const uploadResult = await uploadFile(file, fileType);
-                handleUploadResult(uploadResult, file.name);
+            // Simulate animations for steps and ticks
+            const steps = document.querySelectorAll('.step');
+
+            function startStepperAnimation() {
+                let animationComplete = false; // Flag to check if animation is complete
+
+                steps.forEach((step, index) => {
+                    setTimeout(() => {
+                        // Show the step
+                        step.style.opacity = 1;
+
+                        // Replace number with tick
+                        const number = step.querySelector('.number-' + (index + 1));
+                        const tick = step.querySelector('.tick-' + (index + 1));
+                        if (number) {
+                            number.classList.add('hidden');
+                            tick.style.display = "block";
+                            tick.classList.add('tick');
+                        }
+
+                        // Add typing effect to the text
+                        const typingElement = step.querySelector('.typing-effect');
+                        if (typingElement) {
+                            const text = typingElement.getAttribute('data-text');
+                            typeText(typingElement, 0);
+                        }
+
+                        // Check if it's the last step
+                        if (index === steps.length - 1) {
+                            animationComplete = true; // Set the flag to true after the last step
+                            setTimeout(() => {
+                                // Move to the third component only if animation is complete
+                                if (animationComplete) {
+                                    document.getElementById('afterresponce').classList.add('hidden');
+                                    document.getElementById('thirdresponse').classList.remove('hidden');
+                                }
+                            }, 2000); // Wait 2 seconds after the last step before showing the third component
+                        }
+                    }, index * 1500); // 1.5s delay per step
+                });
+            }
+
+            document.getElementById('fileInput').addEventListener('change', async (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    console.log("File selected:", file); // Debugging log
+                    const fileType = file.name.endsWith('.pdf') ? 'aadhaar' : 'photo'; // Determine file type
+                    document.getElementById('uploadModal').classList.remove('hidden'); // Show the modal
+
+                    const uploadResult = await uploadFile(file, fileType);
+                    console.log("Upload result:", uploadResult); // Debugging log
+                    handleUploadResult(uploadResult, file.name);
+                } else {
+                    console.log("No file selected."); // Debugging log
+                }
+            });
+
+            async function uploadFile(file, type) {
+                const apiUrl = "https://gkyc.gwcindia.in/web-ocr/api-ocr-documents.php";
+                const formData = new URLSearchParams();
+                if (type) {
+                    formData.append("aadhaar", "true");
+                    formData.append("aadhaarF_name", file.name);
+                    formData.append("aadhaarF_data", await getBase64(file));
+                }
+
+                console.log("Form data being sent:", formData); // Debugging log
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        body: formData,
+                    });
+
+                    const result = await response.json();
+                    console.log("API response:", result); // Debugging log
+                    return result;
+                } catch (error) {
+                    console.error("Error uploading file:", error);
+                    return { status: "error", message: "Failed to upload file." };
+                }
+            }
+
+            function handleUploadResult(result, fileName) {
+                document.getElementById('uploadModal').classList.add('hidden'); // Hide the modal here
+
+                if (result.status === "ok") {
+                    alert("File uploaded successfully! File name: " + fileName);
+                    document.getElementById('nextButton').classList.remove('hidden');
+                    
+                    document.getElementById('responseContainer').classList.add('hidden');
+                    document.getElementById('afterresponce').classList.remove('hidden');
+
+                    // Start the stepper animation after showing afterresponce
+                    setTimeout(() => {
+                        startStepperAnimation();
+                    }, 1000); // Start animation after 1 second
+                } else {
+                    alert(result.message);
+                }
+            }
+
+            function getBase64(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = () => resolve(reader.result.split(',')[1]);
+                    reader.onerror = error => reject(error);
+                });
+            }
+
+            function takePhoto() {
+                alert("Camera functionality is not implemented yet.");
             }
         });
-
-        async function uploadFile(file, type) {
-            const apiUrl = "https://gkyc.gwcindia.in/web-ocr/api-ocr-documents.php";
-            const formData = new URLSearchParams();
-            if (type) {
-                formData.append("aadhaar", "true");
-                formData.append("aadhaarF_name", file.name);
-                formData.append("aadhaarF_data", await getBase64(file));
-            }
-
-            try {
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    body: formData,
-                });
-
-                const result = await response.json();
-                return result;
-            } catch (error) {
-                console.error("Error uploading file:", error);
-                return { status: "error", message: "Failed to upload file." };
-            } finally {
-                document.getElementById('uploadModal').classList.add('hidden'); // Hide the modal after upload
-            }
-        }
-
-        function handleUploadResult(result, fileName) {
-            if (result.status === "ok") {
-                alert("File uploaded successfully! File name: " + fileName);
-                document.getElementById('nextButton').classList.remove('hidden');
-            } else {
-                alert(result.message);
-            }
-        }
-
-        function getBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result.split(',')[1]);
-                reader.onerror = error => reject(error);
-            });
-        }
-
-        function takePhoto() {
-            alert("Camera functionality is not implemented yet.");
-        }
     </script>
 </body>
 
